@@ -1,0 +1,4 @@
+<video #video autoplay muted playsinline width="640" height="480" style="border: 2px solid #ccc;"></video>
+<p *ngIf="!detectionRunning">Loading camera...</p>
+<p *ngIf="detectionRunning && !faceValidation">Detecting face and ID...</p>
+<p *ngIf="faceValidation">Faces detected Now validating...</p>
