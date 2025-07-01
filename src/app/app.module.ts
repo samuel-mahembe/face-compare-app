@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {FaceDetectorModule} from "./modules/face-detector/face-detector.module";
 import {HttpClientModule} from "@angular/common/http";
+import {LandingFunctionsModule} from "./modules/landing-functions/landing-functions.module";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {HttpClientModule} from "@angular/common/http";
     BrowserModule,
     AppRoutingModule,
     FaceDetectorModule,
-    HttpClientModule
+    HttpClientModule,
+    LandingFunctionsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

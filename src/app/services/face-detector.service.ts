@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {environment} from "../environments/environment";
+import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 
 
@@ -21,5 +21,8 @@ export class FaceDetectorService {
     return this.http.post(`${this.apiUrl}/compare-faces`, formData);
   }
 
+  getHello() {
+    return this.http.get(`${this.apiUrl}`);
+  }
 
 }

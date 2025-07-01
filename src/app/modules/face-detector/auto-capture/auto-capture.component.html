@@ -1,4 +1,9 @@
-<video #video autoplay muted playsinline width="640" height="480" style="border: 2px solid #ccc;"></video>
-<p *ngIf="!detectionRunning">Loading camera...</p>
-<p *ngIf="detectionRunning && !faceValidation">Detecting face and ID...</p>
-<p *ngIf="faceValidation">Faces detected Now validating...</p>
+<div class="video-container">
+  <video #video autoplay muted playsinline style="width: 100%; height: 100vh; object-fit: cover;"></video>
+
+  <div class="alert-overlay">
+    <p *ngIf="!detectionRunning">Loading camera...</p>
+    <p *ngIf="detectionRunning && !faceValidation">Detecting face and ID...</p>
+    <p *ngIf="faceValidation">Faces detected Now validating...</p>
+  </div>
+</div>

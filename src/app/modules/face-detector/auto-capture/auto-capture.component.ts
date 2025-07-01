@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import * as faceapi from 'face-api.js';
-import {FaceDetectorService} from "../../../../services/face-detector.service";
+import {FaceDetectorService} from "../../../services/face-detector.service";
 
 @Component({
   selector: 'app-auto-capture',
@@ -64,7 +64,20 @@ export class AutoCaptureComponent implements AfterViewInit{
     detections.forEach((det, i) => {
       console.log('face detected', det);
       const { x, y, width, height } = det.box;
-      const cropped = ctx.getImageData(x, y, width, height);
+// Add padding to increase crop size (e.g., 30% larger)
+      const padding = {
+        x: width * 0.4,
+        y: height * 0.4
+      };
+
+      // Calculate new coordinates with padding
+      const newX = Math.max(0, x - padding.x / 2);
+      const newY = Math.max(0, y - padding.y / 2);
+      const newWidth = Math.min(canvas.width - newX, width + padding.x);
+      const newHeight = Math.min(canvas.height - newY, height + padding.y);
+
+      const cropped = ctx.getImageData(newX, newY, newWidth, newHeight);
+
       const faceCanvas = document.createElement('canvas');
       faceCanvas.width = width;
       faceCanvas.height = height;
