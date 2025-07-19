@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import * as faceapi from 'face-api.js';
 import {FaceDetectorService} from "../../../services/face-detector.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-auto-capture',
@@ -11,8 +12,9 @@ export class AutoCaptureComponent implements AfterViewInit{
   @ViewChild('video') videoRef!: ElementRef;
   detectionRunning = false;
   faceValidation = false;
+  failedAttempts = false;
   capturedFiles: { selfie?: File; idface?: File } = {};
-  constructor(private faceService: FaceDetectorService) {
+  constructor(private faceService: FaceDetectorService, private route :Router) {
   }
 
   async ngAfterViewInit() {
@@ -66,8 +68,8 @@ export class AutoCaptureComponent implements AfterViewInit{
       const { x, y, width, height } = det.box;
 // Add padding to increase crop size (e.g., 30% larger)
       const padding = {
-        x: width * 0.4,
-        y: height * 0.4
+        x: width * 0.3,
+        y: height * 0.5
       };
 
       // Calculate new coordinates with padding
@@ -92,14 +94,20 @@ export class AutoCaptureComponent implements AfterViewInit{
     console.log('captured files', this.capturedFiles);
     // Send only when both are captured
     if (this.capturedFiles.selfie && this.capturedFiles.idface) {
-      this.faceValidation = true;
+
       this.faceService.compareFaces(this.capturedFiles.selfie, this.capturedFiles.idface)
         .subscribe({
           next: (res) => {
+            this.failedAttempts = false;
+            this.faceValidation = true;
             console.log('Face match result:', res);
+            this.toQueryPage();
           },
           error: (err) => {
-            console.error('Upload failed:', err);
+            console.error('Face comparison failed:', err);
+            this.failedAttempts = true;
+            this.detectFaces();
+
           }
         });
     }
@@ -124,4 +132,9 @@ export class AutoCaptureComponent implements AfterViewInit{
     }
     return new Blob([ia], { type: 'image/jpeg' });
   }
+
+  toQueryPage(){
+    this.route.navigate(['/query']);
+  }
 }
+

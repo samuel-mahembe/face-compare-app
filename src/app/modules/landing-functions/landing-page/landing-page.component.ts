@@ -22,4 +22,8 @@ export class LandingPageComponent implements OnInit{
   toCapture(){
     this.router.navigate(['/capture']);
   }
+
+  toQuery() {
+    this.router.navigate(['/query']);
+  }
 }

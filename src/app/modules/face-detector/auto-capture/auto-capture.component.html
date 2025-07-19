@@ -4,6 +4,8 @@
   <div class="alert-overlay">
     <p *ngIf="!detectionRunning">Loading camera...</p>
     <p *ngIf="detectionRunning && !faceValidation">Detecting face and ID...</p>
-    <p *ngIf="faceValidation">Faces detected Now validating...</p>
+    <p *ngIf="faceValidation && failedAttempts">Faces detected Now validating...</p>
+    <p *ngIf="faceValidation && !failedAttempts">Face validated successfully!</p>
+    <p *ngIf="failedAttempts">Trying Again failed to validate user...</p>
   </div>
 </div>
